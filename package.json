@@ -1,0 +1,34 @@
+{
+  "name": "webpack-emit-all-plugin",
+  "version": "1.0.0",
+  "description": "webpack, without the `pack`",
+  "main": "index.js",
+  "engines": {
+    "node": ">=7",
+    "npm": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^1.5.3",
+    "prettier-check": "^1.0.0"
+  },
+  "scripts": {
+    "format": "prettier --single-quote --tab-width 4 --write *.js",
+    "format:check": "prettier-check --single-quote --tab-width 4 --write *.js",
+    "test": "npm run format:check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrewML/webpack-emit-all-plugin.git"
+  },
+  "keywords": [
+    "webpack",
+    "emit"
+  ],
+  "author": "Andrew Levine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrewML/webpack-emit-all-plugin/issues"
+  },
+  "homepage": "https://github.com/DrewML/webpack-emit-all-plugin#readme"
+}
