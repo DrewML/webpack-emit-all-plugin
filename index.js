@@ -11,7 +11,7 @@ module.exports = class EmitAllPlugin {
     }
 
     apply(compiler) {
-        compiler.plugin('after-compile', (compilation, cb) => {
+        compiler.hooks.afterCompile.tapAsync("EmitAllPlugin", (compilation, cb) => {
             const { modules } = compilation;
             modules.forEach(mod => {
                 const absolutePath = mod.resource;
