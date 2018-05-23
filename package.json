@@ -12,6 +12,9 @@
     "prettier": "^1.5.3",
     "prettier-check": "^1.0.0"
   },
+  "peerDependencies": {
+    "webpack": ">=4"
+  },
   "scripts": {
     "format": "prettier --single-quote --tab-width 4 --write *.js",
     "format:check": "prettier-check --single-quote --tab-width 4 --write *.js",
