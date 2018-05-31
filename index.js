@@ -7,7 +7,7 @@ module.exports = class EmitAllPlugin {
     }
 
     shouldIgnore(path) {
-        return this.ignorePattern.test(path);
+        return !path || this.ignorePattern.test(path);
     }
 
     apply(compiler) {
