@@ -4,6 +4,8 @@ module.exports = class EmitAllPlugin {
     constructor(opts = {}) {
         this.ignorePattern = opts.ignorePattern || /node_modules/;
         this.path = opts.path;
+        this.filenameTransform =
+            opts.filenameTransform || (filename => filename);
     }
 
     shouldIgnore(path) {
@@ -26,10 +28,10 @@ module.exports = class EmitAllPlugin {
                     const projectRoot = compiler.context;
                     const out = this.path || compiler.options.output.path;
 
-                    const dest = path.join(
-                        out,
+                    const relativePath = this.filenameTransform(
                         absolutePath.replace(projectRoot, '')
                     );
+                    const dest = path.join(out, relativePath);
 
                     compiler.outputFileSystem.mkdirp(
                         path.dirname(dest),
