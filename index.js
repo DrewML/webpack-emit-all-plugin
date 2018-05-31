@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = class EmitAllPlugin {
     constructor(opts = {}) {
         this.ignorePattern = opts.ignorePattern || /node_modules/;
-        this.ignoreExternals = opts.externals;
+        this.ignoreExternals = !!opts.ignoreExternals;
         this.path = opts.path;
     }
 
@@ -19,7 +19,7 @@ module.exports = class EmitAllPlugin {
                 modules.forEach(mod => {
                     const absolutePath = mod.resource;
                     
-                    if (this.ignoreExternals === true && mod.external) return;
+                    if (this.ignoreExternals && mod.external) return;
                     if (this.shouldIgnore(absolutePath)) return;
 
                     // Used for vendor chunk
