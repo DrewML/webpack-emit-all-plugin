@@ -18,7 +18,7 @@ module.exports = class EmitAllPlugin {
                 const { modules } = compilation;
                 modules.forEach(mod => {
                     const absolutePath = mod.resource;
-                    
+
                     if (this.ignoreExternals && mod.external) return;
                     if (this.shouldIgnore(absolutePath)) return;
 
