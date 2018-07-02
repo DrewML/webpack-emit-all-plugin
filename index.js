@@ -22,8 +22,12 @@ module.exports = class EmitAllPlugin {
                     if (this.ignoreExternals && mod.external) return;
                     if (this.shouldIgnore(absolutePath)) return;
 
-                    // Used for vendor chunk
-                    if (mod.constructor.name === 'MultiModule') return;
+                    // Used for vendor chunks like:
+                    // MultiModule
+                    // ConcatenatedModule
+                    // ExternalModule
+                    // ContextModule
+                    if (mod._source === null) return;
 
                     const source = mod._source._value;
                     const projectRoot = compiler.context;
