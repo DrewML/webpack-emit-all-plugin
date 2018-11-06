@@ -7,8 +7,11 @@
     "node": ">=7",
     "npm": "*"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mkdirp": "^0.5.1"
+  },
   "devDependencies": {
+    "memory-fs": "^0.4.1",
     "prettier": "^1.5.3",
     "prettier-check": "^1.0.0"
   },
