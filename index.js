@@ -1,11 +1,15 @@
 const path = require('path');
+const MemoryFileSystem = require('memory-fs')
+const mkdirp = require('mkdirp');
+const fs = require('fs');
 
 module.exports = class EmitAllPlugin {
     constructor(opts = {}) {
         this.ignorePattern = opts.ignorePattern || /node_modules/;
         this.path = opts.path;
-        this.filenameTransform =
-            opts.filenameTransform || (filename => filename);
+        this.filenameTransform = opts.filenameTransform || (filename => filename);
+        this.filecontentTransform = opts.filecontentTransform || (contents => contents);
+        this.emitInDev = opts.emitInDev;
     }
 
     shouldIgnore(path) {
@@ -24,7 +28,6 @@ module.exports = class EmitAllPlugin {
                     // Used for vendor chunk
                     if (mod.constructor.name === 'MultiModule') return;
 
-                    const source = mod._source._value;
                     const projectRoot = compiler.context;
                     const out = this.path || compiler.options.output.path;
 
@@ -32,6 +35,9 @@ module.exports = class EmitAllPlugin {
                         absolutePath.replace(projectRoot, '')
                     );
                     const dest = path.join(out, relativePath);
+
+                    const source =
+                        this.filecontentTransform(mod._source._value, relativePath, absolutePath);
 
                     compiler.outputFileSystem.mkdirp(
                         path.dirname(dest),
@@ -47,6 +53,22 @@ module.exports = class EmitAllPlugin {
                             );
                         }
                     );
+                    if (this.emitInDev && compiler.outputFileSystem instanceof MemoryFileSystem) {
+                        mkdirp(
+                            path.dirname(dest),
+                            err => {
+                                if (err) throw err;
+
+                                fs.writeFileSync(
+                                    dest,
+                                    source,
+                                    err => {
+                                        if (err) throw err;
+                                    }
+                                );
+                            }
+                        );
+                    }
                 });
                 cb();
             }
