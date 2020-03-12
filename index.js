@@ -23,7 +23,8 @@ module.exports = class EmitAllPlugin {
                     if (this.shouldIgnore(absolutePath)) return;
 
                     // Used for vendor chunk
-                    if (mod.constructor.name === 'MultiModule') return;
+                    // Excludes MultiModules as well as ContextModules
+                    if (!mod._source) return;
 
                     const source = mod._source._value;
                     const projectRoot = compiler.context;
